@@ -120,10 +120,10 @@ function filter_html5avtomp4_processjobs() {
             'timecreated'  => time(),
             'timemodified' => time()
     ];
-    $outputfile = $fs->create_file_from_pathname($outputfile_properties, $tmpoutputfilepath);
-    unlink($tmpoutputfilepath); // not needed anymore
-
-    if (!$outputfile) {
+    try {
+        $outputfile = $fs->create_file_from_pathname($outputfile_properties, $tmpoutputfilepath);
+    }
+    catch (Exception $exception) {
         $job->status = FILTER_HTML5AVTOMP4_JOBSTATUS_FAILED;
         $DB->update_record('filter_html5avtomp4_jobs', $job);
 
@@ -131,6 +131,7 @@ function filter_html5avtomp4_processjobs() {
 
         return;
     }
+    unlink($tmpoutputfilepath); // not needed anymore
 
     $job->status = FILTER_HTML5AVTOMP4_JOBSTATUS_DONE;
     $DB->update_record('filter_html5avtomp4_jobs', $job);
