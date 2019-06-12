@@ -51,7 +51,7 @@ class filter_html5avtomp4 extends moodle_text_filter {
             return $text;
         }
 
-        $pattern = '/(<(audio|video)[^>]+>).*(<source src="[^"]+"[^>]*>[^<]+?)+?.*(<\/\2>)/sU';
+        $pattern = '/(<(audio|video)[^>]+>)[^<]*(<source src="[^"]+"[^>]*>[^<]+?)+?[^<]*(<\/\2>)/sU';
         $text = preg_replace_callback($pattern, 'filter_html5avtomp4_checksources', $text);
 
         return $text;
