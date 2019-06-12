@@ -31,23 +31,42 @@ define('FILTER_HTML5AVTOMP4_JOBSTATUS_FAILED', 3);
 define('FILTER_HTML5AVTOMP4_INPUTFILE_PLACEHOLDER', '{%INPUTFILE%}');
 define('FILTER_HTML5AVTOMP4_OUTPUTFILE_PLACEHOLDER', '{%OUTPUTFILE%}');
 
-function filter_html5avtomp4_processjobs() {
+/**
+ * @param int|null  $jobid
+ * @param bool|null $displaytrace
+ *
+ * @throws dml_exception
+ * @throws file_exception
+ */
+function filter_html5avtomp4_processjobs(?int $jobid = null, ?bool $displaytrace = true) {
     $pathtoffmpeg = get_config('filter_html5avtomp4', 'pathtoffmpeg');
 
     if (empty($pathtoffmpeg) || !is_executable(trim($pathtoffmpeg))) {
         // don't bother if ffmpeg is not usable
-        matrace('ffmpeg not available, aborting');
+        if ($displaytrace) {
+            mtrace('ffmpeg not available, aborting');
+        }
 
         return;
     }
 
     global $DB;
 
-    // take one job at a time
-    $job = $DB->get_record_select('filter_html5avtomp4_jobs', 'status = ? ORDER BY id ASC LIMIT 1',
-            [FILTER_HTML5AVTOMP4_JOBSTATUS_INITIAL]);
+    if ($jobid > 0) {
+        $job = $DB->get_record('filter_html5avtomp4_jobs', [
+                'id'     => $jobid,
+                'status' => FILTER_HTML5AVTOMP4_JOBSTATUS_INITIAL
+        ]);
+    }
+    else {
+        // take one job at a time
+        $job = $DB->get_record_select('filter_html5avtomp4_jobs', 'status = ? ORDER BY id ASC LIMIT 1',
+                [FILTER_HTML5AVTOMP4_JOBSTATUS_INITIAL]);
+    }
     if (!$job) {
-        mtrace('no jobs found');
+        if ($displaytrace) {
+            mtrace('no jobs found');
+        }
 
         return;
     }
@@ -59,7 +78,9 @@ function filter_html5avtomp4_processjobs() {
         $job->status = FILTER_HTML5AVTOMP4_JOBSTATUS_FAILED;
         $DB->update_record('filter_html5avtomp4_jobs', $job);
 
-        mtrace('file ' . $job->fileid . ' not found');
+        if ($displaytrace) {
+            mtrace('file ' . $job->fileid . ' not found');
+        }
 
         return;
     }
@@ -84,7 +105,9 @@ function filter_html5avtomp4_processjobs() {
     $ffmpegoptions = preg_replace('/^(.*)' . $inputfileplaceholder_preg . '(.*)' . $outputfileplaceholder_preg . '(.*)$/', '$1 ' . escapeshellarg($tmpinputfilepath) . ' $2 ' . escapeshellarg($tmpoutputfilepath) . ' $3', get_config('filter_html5avtomp4', $type . 'ffmpegsettings'));
 
     $command = escapeshellcmd(trim($pathtoffmpeg) . ' ' . $ffmpegoptions);
-    mtrace($command);
+    if ($displaytrace) {
+        mtrace($command);
+    }
 
     $output = null;
     $return = null;
@@ -92,7 +115,9 @@ function filter_html5avtomp4_processjobs() {
     if ($output) {
         print_r($output);
     }
-    mtrace('...returned ' . $return);
+    if ($displaytrace) {
+        mtrace('...returned ' . $return);
+    }
 
     unlink($tmpinputfilepath); // not needed anymore
 
@@ -100,7 +125,9 @@ function filter_html5avtomp4_processjobs() {
         $job->status = FILTER_HTML5AVTOMP4_JOBSTATUS_FAILED;
         $DB->update_record('filter_html5avtomp4_jobs', $job);
 
-        mtrace('output file not found');
+        if ($displaytrace) {
+            mtrace('output file not found');
+        }
 
         return;
     }
@@ -127,7 +154,9 @@ function filter_html5avtomp4_processjobs() {
         $job->status = FILTER_HTML5AVTOMP4_JOBSTATUS_FAILED;
         $DB->update_record('filter_html5avtomp4_jobs', $job);
 
-        mtrace('unable to save output file');
+        if ($displaytrace) {
+            mtrace('file could not be saved: ' . $exception->getMessage());
+        }
 
         return;
     }
@@ -135,5 +164,8 @@ function filter_html5avtomp4_processjobs() {
 
     $job->status = FILTER_HTML5AVTOMP4_JOBSTATUS_DONE;
     $DB->update_record('filter_html5avtomp4_jobs', $job);
-    mtrace('created file id ' . $outputfile->get_id());
+
+    if ($displaytrace) {
+        mtrace('created file id ' . $outputfile->get_id());
+    }
 }

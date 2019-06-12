@@ -59,6 +59,14 @@ class filter_html5avtomp4 extends moodle_text_filter {
 
 }
 
+/**
+ * @param $matches
+ *
+ * @return mixed|string
+ * @throws coding_exception
+ * @throws dml_exception
+ * @throws file_exception
+ */
 function filter_html5avtomp4_checksources($matches) {
     global $CFG;
 
@@ -139,6 +147,11 @@ function filter_html5avtomp4_checksources($matches) {
                     'status' => FILTER_HTML5AVTOMP4_JOBSTATUS_INITIAL
             ];
             $jobid = $DB->insert_record('filter_html5avtomp4_jobs', $job);
+
+            if ($type == 'audio') {
+                // process audio jobs immediately
+                \filter_html5avtomp4_processjobs($jobid, false);
+            }
         }
 
         return $fullmatch;
