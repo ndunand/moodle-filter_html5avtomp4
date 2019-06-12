@@ -82,7 +82,7 @@ function filter_html5avtomp4_checksources($matches) {
 
     // so we can now assume there is only one element in $source_tags
     $source_tag = array_pop($source_tags);
-    $src_url = preg_replace('/^.*src="([^"]+)".*$/', '$1', $source_tag);
+    $src_url = preg_replace('/^.*src="([^"]+)".*$/s', '$1', $source_tag);
 
     if (strpos($src_url, $CFG->wwwroot) === false) {
         // file is not hosted on the Moodle server, abort
