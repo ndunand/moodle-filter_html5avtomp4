@@ -18,7 +18,7 @@
 /**
  * Version information
  *
- * @package    filter_html5avtomp4s
+ * @package    filter_html5avtomp4
  * @copyright  2019 Université de Lausanne
  * @author     Nicolas.Dunand@unil.ch
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
