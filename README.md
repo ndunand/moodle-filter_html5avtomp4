@@ -4,7 +4,7 @@ This filter allows the automated creation of MP4 sources for HTML5 `<audio>` and
 
 This is particularly useful if some users are using [atto_recordrtc](https://docs.moodle.org/37/en/RecordRTC) because most browsers create `ogg` files for audio and `webm` files for video, which are not playable in Safari.
 
-This plugin then check for the existence of an `mp4` source and provides it automatically if it exists. In the case the `mp4` source does not exist, it is created via a scheduled task.
+This plugin then checks for the existence of an `mp4` source in the same file area and provides it automatically if it exists. In the case the `mp4` source does not exist, it is created via a scheduled task.
 
 ## Requirements
 
@@ -30,5 +30,5 @@ Optionnally you can:
 
 ## Issues
 
-Report issues on https://github.com/ndunand/moodle-filter_html5avtomp4/issues .
+Please report issues on https://github.com/ndunand/moodle-filter_html5avtomp4/issues .
 
