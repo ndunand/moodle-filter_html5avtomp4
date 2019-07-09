@@ -105,7 +105,16 @@ function filter_html5avtomp4_checksources($matches) {
     }
 
     $filepath = str_replace($CFG->wwwroot . '/pluginfile.php/', '', $src_url);
-    list($contextid, $component, $filearea, $itemid, $inputfilename) = explode('/', $filepath);
+    $filepathargs = explode('/', ltrim($filepath, '/'));
+
+    if (count($filepathargs) < 4) { // always at least context, component and filearea
+        print_error('invalidarguments');
+    }
+
+    $contextid = (int)array_shift($filepathargs);
+    $component = clean_param(array_shift($filepathargs), PARAM_COMPONENT);
+    $filearea = clean_param(array_shift($filepathargs), PARAM_AREA);
+    $inputfilename = clean_param(array_pop($filepathargs), PARAM_FILE);
 
     $outputfile_ext = ($type == 'audio')
             ? 'm4a'
