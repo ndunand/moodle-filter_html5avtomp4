@@ -123,7 +123,7 @@ function filter_html5avtomp4_processjobs(?int $jobid = null, ?bool $displaytrace
         $return = null;
         exec($command, $output, $return);
         if ($output) {
-            print_r($output);
+            mtrace($output);
         }
         if ($displaytrace) {
             mtrace('...returned ' . $return);
