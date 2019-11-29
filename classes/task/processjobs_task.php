@@ -26,6 +26,8 @@
 
 namespace filter_html5avtomp4\task;
 
+defined('MOODLE_INTERNAL') || die();
+
 class processjobs_task extends \core\task\scheduled_task {
 
     /**
