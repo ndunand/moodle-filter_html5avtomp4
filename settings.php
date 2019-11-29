@@ -24,6 +24,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+defined('MOODLE_INTERNAL') || die();
+
 require_once($CFG->dirroot . '/filter/html5avtomp4/locallib.php');
 
 $settings->add(new admin_setting_configexecutable('filter_html5avtomp4/pathtoffmpeg',get_string('pathtoffmpeg','filter_html5avtomp4'),get_string('pathtoffmpeg_desc','filter_html5avtomp4'),'/usr/bin/ffmpeg'));
