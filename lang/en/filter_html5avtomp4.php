@@ -38,3 +38,4 @@ $string['videoffmpegsettings'] = 'ffmpeg settings for video conversion';
 $string['videoffmpegsettings_desc'] = 'This should contain at least "-i {%INPUTFILE%} {%OUTPUTFILE%}"; place your options around these as needed';
 $string['convertonlyexts'] = 'convert only these extensions';
 $string['convertonlyexts_desc'] = 'Comma-separated list of file extensions to be converted to mp4';
+$string['privacy:metadata'] = 'The HTML5 audio/video to MP4 filter does not store any personal data.';
