@@ -29,9 +29,11 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir . '/filelib.php');
 require_once($CFG->dirroot . '/filter/html5avtomp4/locallib.php');
 
-class filter_html5avtomp4 extends moodle_text_filter {
+class filter_html5avtomp4 extends moodle_text_filter
+{
 
-    function filter($text, array $options = array()) {
+    function filter($text, array $options = array())
+    {
 
         if (!is_string($text)) {
             // non string data can not be filtered anyway
@@ -39,14 +41,14 @@ class filter_html5avtomp4 extends moodle_text_filter {
         }
 
         if (get_config('filter_html5avtomp4', 'convertaudio') === false && get_config('filter_html5avtomp4',
-                        'convertvideo') === false) {
+                'convertvideo') === false) {
             // plugin is not configured to convert anything
             return $text;
         }
 
         if ((get_config('filter_html5avtomp4', 'convertaudio') === false || strpos($text,
-                                '</audio>') === false) && (get_config('filter_html5avtomp4',
-                                'convertvideo') === false || strpos($text, '</video>') === false)) {
+                    '</audio>') === false) && (get_config('filter_html5avtomp4',
+                    'convertvideo') === false || strpos($text, '</video>') === false)) {
             // nothing to do
             return $text;
         }
@@ -67,7 +69,8 @@ class filter_html5avtomp4 extends moodle_text_filter {
  * @throws dml_exception
  * @throws file_exception
  */
-function filter_html5avtomp4_checksources($matches) {
+function filter_html5avtomp4_checksources($matches)
+{
     global $CFG;
 
     $fullmatch = array_shift($matches);
@@ -117,8 +120,8 @@ function filter_html5avtomp4_checksources($matches) {
     $inputfilename = clean_param(array_pop($filepathargs), PARAM_FILE);
 
     $outputfile_ext = ($type == 'audio')
-            ? 'm4a'
-            : 'mp4';
+        ? 'm4a'
+        : 'mp4';
     $outputfilename = preg_replace('/\.' . $src_fileextension . '/i', '.' . $outputfile_ext, $inputfilename);
 
     $inputfile = null;
@@ -138,7 +141,7 @@ function filter_html5avtomp4_checksources($matches) {
         }
     }
 
-    if (is_null($inputfile)) {
+    if (is_null($inputfile) && is_null($outputfile)) {
         // could not find input file, abort
         return $fullmatch;
     }
@@ -152,8 +155,8 @@ function filter_html5avtomp4_checksources($matches) {
         if (!$existingjob) {
             // let's create a job to convert this file
             $job = (object)[
-                    'fileid' => $inputfile->get_id(),
-                    'status' => FILTER_HTML5AVTOMP4_JOBSTATUS_INITIAL
+                'fileid' => $inputfile->get_id(),
+                'status' => FILTER_HTML5AVTOMP4_JOBSTATUS_INITIAL
             ];
             $jobid = $DB->insert_record('filter_html5avtomp4_jobs', $job);
 
@@ -164,16 +167,19 @@ function filter_html5avtomp4_checksources($matches) {
         }
 
         return $fullmatch;
-    }
-    else {
+    } else {
         // we're good to display the MP4 :))
 
         $extra_source_tags = [
-                '<source src="' . str_replace($inputfilename, $outputfilename, $src_url) . '" type="' . $outputfile->get_mimetype() . '">'
+            '<source src="' . str_replace($inputfilename, $outputfilename, $src_url) . '" type="' . $outputfile->get_mimetype() . '">'
         ];
     }
 
-    $alltags = array_merge([$tag_open], [$source_tag], $extra_source_tags, [$tag_close]);
+    if (!count($extra_source_tags)) {
+        return $fullmatch;
+    } else {
+        $alltags = array_merge([$tag_open], $extra_source_tags, [$tag_close]);
+        return implode("\n", $alltags);
+    }
 
-    return implode("\n", $alltags);
 }
