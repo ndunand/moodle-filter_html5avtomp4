@@ -30,7 +30,7 @@ Optionnally you can:
 
 Hints:
 
-* Read https://docs.moodle.org/310/en/Managing_filters how to activate and order filters.
+* Read https://docs.moodle.org/en/Managing_filters how to activate and order filters.
 * The order in which the **HTML5 audio/video to MP4 filter** is placed has an effect on its correct working (whether it converts or not). 
 * The filter **HTML5 audio/video to MP4 filter** should be placed at least before filters **Convert URLs into links and images** and **Multimedia plugins**.
 
