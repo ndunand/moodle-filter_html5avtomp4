@@ -28,7 +28,12 @@ Optionnally you can:
 * change the other plugin settings as required,
 * tweak the execution times of the scheduled task running the file conversions.
 
+Hints:
+
+* Read https://docs.moodle.org/310/en/Managing_filters how to activate and order filters.
+* The order in which the **HTML5 audio/video to MP4 filter** is placed has an effect on its correct working (whether it converts or not). 
+* The filter **HTML5 audio/video to MP4 filter** should be placed at least before filters **Convert URLs into links and images** and **Multimedia plugins**.
+
 ## Issues
 
-Please report issues on https://github.com/ndunand/moodle-filter_html5avtomp4/issues .
-
+Please report issues on https://github.com/ndunand/moodle-filter_html5avtomp4/issues.
