@@ -39,3 +39,5 @@ $string['videoffmpegsettings_desc'] = 'This should contain at least "-i {%INPUTF
 $string['convertonlyexts'] = 'convert only these extensions';
 $string['convertonlyexts_desc'] = 'Comma-separated list of file extensions to be converted to mp4';
 $string['privacy:metadata'] = 'The HTML5 audio/video to MP4 filter does not store any personal data.';
+$string['deleteoriginalfiles'] = 'Delete source files';
+$string['deleteoriginalfiles_desc'] = 'Delete source files to keep only mp4 and m4a';

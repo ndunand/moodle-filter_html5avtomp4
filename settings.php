@@ -40,3 +40,4 @@ $settings->add(new admin_setting_configcheckbox('filter_html5avtomp4/convertvide
 
 $settings->add(new admin_setting_configtext('filter_html5avtomp4/videoffmpegsettings', get_string('videoffmpegsettings', 'filter_html5avtomp4'), get_string('videoffmpegsettings_desc', 'filter_html5avtomp4'), '-i ' . FILTER_HTML5AVTOMP4_INPUTFILE_PLACEHOLDER . ' ' . FILTER_HTML5AVTOMP4_OUTPUTFILE_PLACEHOLDER, PARAM_RAW, 80));
 
+$settings->add(new admin_setting_configcheckbox('filter_html5avtomp4/deleteoriginalfiles', get_string('deleteoriginalfiles', 'filter_html5avtomp4'), get_string('deleteoriginalfiles_desc', 'filter_html5avtomp4'), false, true, false));
