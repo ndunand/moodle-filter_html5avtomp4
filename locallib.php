@@ -57,18 +57,17 @@ function filter_html5avtomp4_processjobs(?int $jobid = null, ?bool $displaytrace
 
     if ($jobid > 0) {
         $jobs = $DB->get_records('filter_html5avtomp4_jobs', [
-            'id'     => $jobid,
-            'status' => FILTER_HTML5AVTOMP4_JOBSTATUS_INITIAL
+                'id'     => $jobid,
+                'status' => FILTER_HTML5AVTOMP4_JOBSTATUS_INITIAL
         ]);
     }
     else {
         // take one job at a time
         $jobs = $DB->get_records('filter_html5avtomp4_jobs', ['status' => FILTER_HTML5AVTOMP4_JOBSTATUS_INITIAL],
-            'id ASC', '*', '0', FILTER_HTML5AVTOMP4_JOBSPERPASS);
+                'id ASC', '*', '0', FILTER_HTML5AVTOMP4_JOBSPERPASS);
         if ($displaytrace) {
             mtrace('found ' . count($jobs) . ' jobs');
         }
-
     }
 
     while ($job = array_shift($jobs)) {
@@ -110,9 +109,9 @@ function filter_html5avtomp4_processjobs(?int $jobid = null, ?bool $displaytrace
         $inputfileplaceholder_preg = preg_quote(FILTER_HTML5AVTOMP4_INPUTFILE_PLACEHOLDER, '/');
         $outputfileplaceholder_preg = preg_quote(FILTER_HTML5AVTOMP4_OUTPUTFILE_PLACEHOLDER, '/');
         $ffmpegoptions =
-            preg_replace('/^(.*)' . $inputfileplaceholder_preg . '(.*)' . $outputfileplaceholder_preg . '(.*)$/',
-                '$1 ' . escapeshellarg($tmpinputfilepath) . ' $2 ' . escapeshellarg($tmpoutputfilepath) . ' $3',
-                get_config('filter_html5avtomp4', $type . 'ffmpegsettings'));
+                preg_replace('/^(.*)' . $inputfileplaceholder_preg . '(.*)' . $outputfileplaceholder_preg . '(.*)$/',
+                        '$1 ' . escapeshellarg($tmpinputfilepath) . ' $2 ' . escapeshellarg($tmpoutputfilepath) . ' $3',
+                        get_config('filter_html5avtomp4', $type . 'ffmpegsettings'));
 
         $command = escapeshellcmd(trim($pathtoffmpeg) . ' ' . $ffmpegoptions);
         if ($displaytrace) {
@@ -145,17 +144,17 @@ function filter_html5avtomp4_processjobs(?int $jobid = null, ?bool $displaytrace
         $fs = get_file_storage();
         $inputfile_properties = $DB->get_record('files', ['id' => $inputfile->get_id()]);
         $outputfile_properties = [
-            'contextid'    => $inputfile_properties->contextid,
-            'component'    => $inputfile_properties->component,
-            'filearea'     => $inputfile_properties->filearea,
-            'itemid'       => $inputfile_properties->itemid,
-            'filepath'     => $inputfile_properties->filepath,
-            'filename'     => $tmpoutputfilename,
-            'userid'       => $inputfile_properties->userid,
-            'author'       => $inputfile_properties->author,
-            'license'      => $inputfile_properties->license,
-            'timecreated'  => time(),
-            'timemodified' => time()
+                'contextid'    => $inputfile_properties->contextid,
+                'component'    => $inputfile_properties->component,
+                'filearea'     => $inputfile_properties->filearea,
+                'itemid'       => $inputfile_properties->itemid,
+                'filepath'     => $inputfile_properties->filepath,
+                'filename'     => $tmpoutputfilename,
+                'userid'       => $inputfile_properties->userid,
+                'author'       => $inputfile_properties->author,
+                'license'      => $inputfile_properties->license,
+                'timecreated'  => time(),
+                'timemodified' => time()
         ];
         try {
             $outputfile = $fs->create_file_from_pathname($outputfile_properties, $tmpoutputfilepath);
