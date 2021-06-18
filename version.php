@@ -26,9 +26,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2019112901;
+$plugin->version = 2021061800;
 $plugin->requires = 2019052000; // Moodle 3.7
 $plugin->component = 'filter_html5avtomp4';
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = 'Version 1.0 for Moodle 3.7-3.8 (Build: 2019112901)';
+$plugin->release = 'Version 1.0 for Moodle 3.7-3.11 (Build: 2021061800)';
 
