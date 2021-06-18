@@ -166,10 +166,13 @@ function filter_html5avtomp4_checksources($matches) {
     else {
         // we're good to display the MP4 :))
 
-        $extra_source_tags = [
-                '<source src="' . str_replace($inputfilename, $outputfilename,
-                        $src_url) . '" type="' . $outputfile->get_mimetype() . '">'
-        ];
+        if (!is_null($inputfile)) {
+            // We need to check for $inputfile in case it has been deleted.
+            $extra_source_tags[] = '<source src="' . $src_url . '" type="' . $inputfile->get_mimetype() . '">';
+        }
+
+        $extra_source_tags[] = '<source src="' . str_replace($inputfilename, $outputfilename,
+                        $src_url) . '" type="' . $outputfile->get_mimetype() . '">';
     }
 
     $alltags = array_merge([$tag_open], $extra_source_tags, [$tag_close]);
