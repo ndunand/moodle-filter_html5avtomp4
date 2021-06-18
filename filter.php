@@ -175,11 +175,7 @@ function filter_html5avtomp4_checksources($matches)
         ];
     }
 
-    if (!count($extra_source_tags)) {
-        return $fullmatch;
-    } else {
-        $alltags = array_merge([$tag_open], $extra_source_tags, [$tag_close]);
-        return implode("\n", $alltags);
-    }
+    $alltags = array_merge([$tag_open], $extra_source_tags, [$tag_close]);
 
+    return implode("\n", $alltags);
 }
