@@ -81,7 +81,7 @@ function filter_html5avtomp4_checksources($matches) {
     $type = preg_replace('/[^a-z]/', '', strtolower($tag_close)); // 'audio' or 'video'
 
     $source_tags = $matches;
-    $extra_source_tags = [];
+    $result_source_tags = [];
 
     if (count($source_tags) > 1) {
         // there are several source tags, we therefore assume it's sufficient
@@ -168,14 +168,14 @@ function filter_html5avtomp4_checksources($matches) {
 
         if (!is_null($inputfile)) {
             // We need to check for $inputfile in case it has been deleted.
-            $extra_source_tags[] = '<source src="' . $src_url . '" type="' . $inputfile->get_mimetype() . '">';
+            $result_source_tags[] = '<source src="' . $src_url . '" type="' . $inputfile->get_mimetype() . '">';
         }
 
-        $extra_source_tags[] = '<source src="' . str_replace($inputfilename, $outputfilename,
+        $result_source_tags[] = '<source src="' . str_replace($inputfilename, $outputfilename,
                         $src_url) . '" type="' . $outputfile->get_mimetype() . '">';
     }
 
-    $alltags = array_merge([$tag_open], $extra_source_tags, [$tag_close]);
+    $alltags = array_merge([$tag_open], $result_source_tags, [$tag_close]);
 
     return implode("\n", $alltags);
 }
