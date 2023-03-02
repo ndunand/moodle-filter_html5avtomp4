@@ -108,7 +108,7 @@ function filter_html5avtomp4_checksources($matches) {
     $filepathargs = explode('/', ltrim($filepath, '/'));
 
     if (count($filepathargs) < 4) { // always at least context, component and filearea
-        print_error('invalidarguments');
+        throw new \moodle_exception('invalidarguments');
     }
 
     $contextid = (int)array_shift($filepathargs);
